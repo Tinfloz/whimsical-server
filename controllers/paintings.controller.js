@@ -1,5 +1,4 @@
 import Paintings from "../models/paintings.model.js";
-import Users from "../models/users.model.js";
 
 async function createNewPainting(req, res) {
     try {
@@ -84,12 +83,12 @@ async function updatePainting(req, res) {
     try {
         const id = req.params.paintingId;
         const updates = req.body;
-        const user = Users.findByIdAndUpdate(
+        const painting = await Paintings.findByIdAndUpdate(
             id, 
             {$set:updates},
             {new:true, runValidators: true}
         )
-        if (!user){
+        if (!painting){
             throw new Error("User not found!")
         }
         return res.status(200).json({
